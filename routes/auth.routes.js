@@ -11,13 +11,14 @@ router.post(
     '/register',
     [
         check( 'email', 'Invalid email' ).isEmail(),
-        check( 'password', 'Minimum length is 6 symbols').isLength({ min: 6 })
+        check( 'password', 'Minimum length is 6 symbols')
+            .isLength({ min: 6 })
     ],
     async ( req, res ) => {
     try {
         const errors = validationResult(req)
 
-        if ( !errors.isEmpty ) {
+        if ( !errors.isEmpty() ) {
             return res.status(400).json({ errors: errors.array(), message: 'Invalid reg data' })
         }
 

@@ -1,5 +1,5 @@
 {
   "port": 5000,
   "jwtSecret": "maxYmern",
-  "mongoURI": "mongodb+srv://max:1234qwer@cluster0.tn0lx.azure.mongodb.net/app?retryWrites=true&w=majority"
+  "mongoUri": "mongodb+srv://max:1234qwer@cluster0.tn0lx.azure.mongodb.net/app?retryWrites=true&w=majority"
 }
