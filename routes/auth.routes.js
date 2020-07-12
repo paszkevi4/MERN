@@ -1,9 +1,9 @@
-const { Router } = require ('express')
-const bcrypt = require ('bcryptjs')
-const config = require ('config')
-const jwt = require ('jsonwebtoken')
-const { check, validationResult } = require ('express-validator')
-const User = require ('../models/User')
+const {Router} = require('express')
+const bcrypt = require('bcryptjs')
+const config = require('config')
+const jwt = require('jsonwebtoken')
+const {check, validationResult} = require('express-validator')
+const User = require('../models/User')
 const router = Router()
 
 // /api/auth/register
@@ -14,25 +14,27 @@ router.post(
         check( 'password', 'Minimum length is 6 symbols')
             .isLength({ min: 6 })
     ],
-    async ( req, res ) => {
+    async (req, res) => {
     try {
         const errors = validationResult(req)
 
         if ( !errors.isEmpty() ) {
-            return res.status(400).json({ errors: errors.array(), message: 'Invalid reg data' })
+            return res.status(400).json({
+                errors: errors.array(),
+                message: 'Invalid reg data'
+            })
         }
 
-        const { email, password } = req.body
+        const {email, password} = req.body
 
         const candidate = await User.findOne({ email })
 
-        if ( candidate ) {
-            return res.status(400).json({ messages: 'User already exists '})
+        if (candidate) {
+            return res.status(400).json({ message: 'User already exists '})
         }
 
-        const hasedPassword =  await bcrypt.hash( password, 12 )
-        const user = newUser({ email, password: hashedPassword })
-
+        const hashedPassword = await bcrypt.hash(password, 12)
+        const user = new User({ email, password: hashedPassword })
         await user.save()
 
         res.status(201).json({ message: ' Succesfully created ' })
@@ -53,7 +55,7 @@ router.post(
     try {
         const errors = validationResult(req)
 
-        if ( !errors.isEmpty ) {
+        if ( !errors.isEmpty() ) {
             return res.status(400).json({
                 errors: errors.array(),
                 message: 'Invalid login data'
@@ -62,7 +64,7 @@ router.post(
 
         const { email, password } = req.body
 
-        const user = await USer.findOne({ email })
+        const user = await User.findOne({ email })
 
         if (!user) {
             return res.status(400).json({ message: 'User not found' })
